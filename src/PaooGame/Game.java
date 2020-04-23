@@ -1,8 +1,8 @@
 package PaooGame;
-
 import PaooGame.GameWindow.GameWindow;
 import PaooGame.Graphics.Assets;
 import PaooGame.Input.KeyManager;
+import PaooGame.Maps.GameCamera;
 import PaooGame.States.*;
 import PaooGame.Tiles.Tile;
 
@@ -71,6 +71,9 @@ public class Game implements Runnable
     private RefLinks refLink;            /*!< Referinta catre un obiect a carui sarcina este doar de a retine diverse referinte pentru a fi usor accesibile.*/
 
     private Tile tile;
+
+    //Camera
+    private GameCamera gameCamera;
     /*!< variabila membra temporara. Este folosita in aceasta etapa doar pentru a desena ceva pe ecran.
     ! \fn public Game(String title, int width, int height)
         \brief Constructor de initializare al clasei Game.
@@ -109,6 +112,7 @@ public class Game implements Runnable
         wnd.GetWndFrame().addKeyListener(keyManager);
             ///Se incarca toate elementele grafice (dale)
         Assets.Init();
+        gameCamera = new GameCamera(this,0,0);
             ///Se construieste obiectul de tip shortcut ce va retine o serie de referinte catre elementele importante din program.
         refLink = new RefLinks(this);
             ///Definirea starilor programului
@@ -224,6 +228,7 @@ public class Game implements Runnable
     {
             ///Determina starea tastelor
         keyManager.Update();
+
         ///Trebuie obtinuta starea curenta pentru care urmeaza a se actualiza starea, atentie trebuie sa fie diferita de null.
         if(State.GetState() != null)
         {
@@ -287,9 +292,7 @@ public class Game implements Runnable
         return wnd.GetWndWidth();
     }
 
-    /*! \fn public int GetHeight()
-        \brief Returneaza inaltimea ferestrei
-     */
+
     public int GetHeight()
     {
         return wnd.GetWndHeight();
@@ -301,6 +304,10 @@ public class Game implements Runnable
     public KeyManager GetKeyManager()
     {
         return keyManager;
+    }
+    public GameCamera GetGameCamera()
+    {
+        return gameCamera;
     }
 }
 

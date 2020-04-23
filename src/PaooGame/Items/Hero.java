@@ -36,10 +36,10 @@ public class Hero extends Character
             ///Seteaza imaginea de start a eroului
         image = Assets.heroLeft[0];
             ///Stabilieste pozitia relativa si dimensiunea dreptunghiului de coliziune, starea implicita(normala)
-        normalBounds.x = 16;
-        normalBounds.y = 16;
-        normalBounds.width = 16;
-        normalBounds.height = 32;
+        normalBounds.x = 18;
+        normalBounds.y = 20;
+        normalBounds.width = 22;
+        normalBounds.height = 26;
 
             ///Stabilieste pozitia relativa si dimensiunea dreptunghiului de coliziune, starea de atac
         attackBounds.x = 10;
@@ -59,6 +59,8 @@ public class Hero extends Character
         Move();
         ///Actualizeaza imaginea
         Illustrate();
+        refLink.GetGame().GetGameCamera().centerOnEntity(this);
+
     }
 
 
@@ -138,11 +140,11 @@ public class Hero extends Character
     public void Draw(Graphics g)
     {
 
-        g.drawImage(image, (int)x, (int)y, width, height, null);
+        g.drawImage(image, (int)(x - refLink.GetGame().GetGameCamera().getxOffset()), (int)(y - refLink.GetGame().GetGameCamera().getyOffset()), width, height, null);
 
 
             ///doar pentru debug daca se doreste vizualizarea dreptunghiului de coliziune altfel se vor comenta urmatoarele doua linii
-        //g.setColor(Color.blue);
-     //   g.fillRect((int)(x + bounds.x), (int)(y + bounds.y), bounds.width, bounds.height);
+        g.setColor(Color.blue);
+        g.fillRect((int)(x + bounds.x - refLink.GetGame().GetGameCamera().getxOffset()), (int)(y + bounds.y - refLink.GetGame().GetGameCamera().getyOffset()), bounds.width, bounds.height);
     }
 }

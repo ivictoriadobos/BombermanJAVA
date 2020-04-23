@@ -1,6 +1,7 @@
 package PaooGame.Items;
 
 import PaooGame.RefLinks;
+import PaooGame.Tiles.Tile;
 
 /*! \class public abstract class Character extends Item
     \brief Defineste notiunea abstracta de caracter/individ/fiinta din joc.
@@ -12,8 +13,8 @@ public abstract class Character extends Item
 {
     public static final int DEFAULT_LIFE            = 10;   /*!< Valoarea implicita a vietii unui caracter.*/
     public static final float DEFAULT_SPEED         = 2.0f; /*!< Viteza implicita a unu caracter.*/
-    public static final int DEFAULT_CREATURE_WIDTH  = 48;   /*!< Latimea implicita a imaginii caracterului.*/
-    public static final int DEFAULT_CREATURE_HEIGHT = 48;   /*!< Inaltimea implicita a imaginii caracterului.*/
+    public static final int DEFAULT_CREATURE_WIDTH  = 56;   /*!< Latimea implicita a imaginii caracterului.*/
+    public static final int DEFAULT_CREATURE_HEIGHT = 56;   /*!< Inaltimea implicita a imaginii caracterului.*/
 
     protected int life;     /*!< Retine viata caracterului.*/
     protected float speed;  /*!< Retine viteza de deplasare caracterului.*/
@@ -54,10 +55,19 @@ public abstract class Character extends Item
     /*! \fn public void MoveX()
         \brief Modifica pozitia caracterului pe axa X.
      */
-    public void MoveX()
-    {
+    public void MoveX() {
         ///Aduna la pozitia curenta numarul de pixeli cu care trebuie sa se deplaseze pe axa X.
-        x += xMove;
+        if (xMove > 0) {
+            //moving right
+            int tx = (int)(x+xMove + bounds.x+bounds.width)/ Tile.TILE_WIDTH;
+            if(!collisionWithTile(tx, (int) (y+bounds.y)/Tile.TILE_HEIGHT) && !collisionWithTile(tx, (int)(y+bounds.y + bounds.height)/Tile.TILE_HEIGHT))
+                x+=xMove;
+        }
+        else if (xMove <0) {
+            int tx = (int)(x+xMove + bounds.x)/ Tile.TILE_WIDTH;
+            if(!collisionWithTile(tx, (int) (y+bounds.y)/Tile.TILE_HEIGHT) && !collisionWithTile(tx, (int)(y+bounds.y + bounds.height)/Tile.TILE_HEIGHT))
+                 x += xMove;
+        }
     }
 
     /*! \fn public void MoveY()
@@ -66,7 +76,23 @@ public abstract class Character extends Item
     public void MoveY()
     {
         ///Aduna la pozitia curenta numarul de pixeli cu care trebuie sa se deplaseze pe axa Y.
-        y += yMove;
+
+        if(yMove > 0) //in jos
+        {
+            int ty = (int)(y+yMove + bounds.y+bounds.height)/ Tile.TILE_HEIGHT;
+            if(!collisionWithTile((int)(x+bounds.x)/Tile.TILE_WIDTH, ty) && !collisionWithTile((int)(x + bounds.x + bounds.width)/Tile.TILE_WIDTH, ty))
+                y+=yMove;
+        }
+        else if (yMove < 0) { //in sus
+            int ty = (int)(y+yMove + bounds.y)/ Tile.TILE_HEIGHT;
+            if(!collisionWithTile((int)(x+bounds.x)/Tile.TILE_WIDTH, ty) && !collisionWithTile((int)(x + bounds.x + bounds.width)/Tile.TILE_WIDTH, ty))
+                y+=yMove;
+        }
+    }
+
+    protected  boolean collisionWithTile(int x, int y)
+    {
+        return refLink.GetMap().GetTile(x,y).IsSolid();
     }
 
     /*! \fn public int GetLife()
