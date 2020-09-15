@@ -10,17 +10,17 @@ import PaooGame.RefLinks;
     un meniu care sa contine optiuni: New Game, Load Game, Settings, About etc. Toate aceste optiuni nu sunt altceva
     decat stari ale programului (jocului) ce trebuiesc incarcate si afisate functie de starea curenta.
  */
-public abstract class State
-{
-        ///Urmatoarele atribute sunt statice pentru a evita dealocarea spatiului de memorie la trecerea dintr-o stare in alta.
-    private static State previousState  = null; /*!< Referinta catre starea anterioara a jocului.*/
-    private static State currentState   = null; /*!< Referinta catre starea curenta a jocului: game, meniu, settings, about etc.*/
+public abstract class State {
+    //Urmatoarele atribute sunt statice pentru a evita dealocarea spatiului de memorie la trecerea dintr-o stare in alta.
+
+    private static State currentState = null; /*!< Referinta catre starea curenta a jocului: game, meniu, settings, about etc.*/
+
+    ///Referinta catre obiectul cu legaturi importante ale jocului.
+
     protected RefLinks refLink;
 
 
-
-    public State(RefLinks refLink)
-    {
+    public State(RefLinks refLink) {
         this.refLink = refLink;
     }
 
@@ -29,19 +29,20 @@ public abstract class State
 
         \param state Noua stare a programului (jocului).
      */
-    public static void SetState(State state)
-    {
-        previousState = currentState;
+
+    public static void SetState(State state) {
         currentState = state;
     }
 
-    public static State GetState()
-    {
+
+    public static State GetState() {
         return currentState;
     }
 
-        ///Metoda abstracta destinata actualizarii starii curente
-    public abstract void Update();
-        ///Metoda abstracta destinata desenarii starii curente
+    ///Metoda abstracta destinata actualizarii starii curente
+    public abstract void Update();   // este apelata in Game.Update ca State.GetState.Update
+
+    ///Metoda abstracta destinata desenarii starii curente
     public abstract void Draw(Graphics g);
+
 }

@@ -1,8 +1,10 @@
 package PaooGame;
 
+import PaooGame.Input.MouseManager;
 import PaooGame.Maps.Map;
 
 import PaooGame.Input.KeyManager;
+import PaooGame.States.State;
 
 /*! \class public class RefLinks
     \brief Clasa ce retine o serie de referinte ale unor elemente pentru a fi usor accesibile.
@@ -30,6 +32,11 @@ public class RefLinks
     public KeyManager GetKeyManager()
     {
         return game.GetKeyManager();
+    }
+
+    public MouseManager GetMouseManager()
+    {
+        return game.GetMouseManager();
     }
 
     /*! \fn public int GetWidth()

@@ -3,23 +3,22 @@ package PaooGame.Tiles;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-/*! \class public class Tile
+/*! \class Tile
     \brief Retine toate dalele intr-un vector si ofera posibilitatea regasirii dupa un id.
  */
 public class Tile
 {
-    private static final int NO_TILES   = 32;
+    /// Numarul dalelor ca variabila predefinita
+    private static final int NO_TILES   = 10;
     public static Tile[] tiles          = new Tile[NO_TILES];       /*!< Vector de referinte de tipuri de dale.*/
 
-        /// De remarcat ca urmatoarele dale sunt
+        // De remarcat ca urmatoarele dale sunt
         // statice si publice. Acest lucru imi
         // permite sa le am incarcate
-        /// o singura data in memorie
-    public static Tile grassTile        = new GrassTile(0);     /*!< Dala de tip iarba*/
-    public static Tile mountainTile     = new MountainTile(1);  /*!< Dala de tip munte/piatra*/
-    public static Tile waterTile        = new WaterTile(2);     /*!< Dala de tip apa*/
-    public static Tile treeTile         = new TreeTile(3);      /*!< Dala de tip copac*/
-    public static Tile soilTile         = new SoilTile(4);      /*!< Dala de tip sol/pamant*/
+        // o singura data in memorie
+    public static Tile bckgTile        = new BackgroundTile(0);     /*!< Dala de tip podea */
+    public static Tile indestructibleBlockTile     = new IndestructibleBlockTile(1);  /*!< Dala de tip stalp interior*/
+    public static Tile indestructibleWallTile        = new IndestructibleWallTile(2);     /*!< Dala de tip perete*/
 
     public static final int TILE_WIDTH  = 64;                       /*!< Latimea unei dale.*/
     public static final int TILE_HEIGHT = 64;                       /*!< Inaltimea unei dale.*/
@@ -62,11 +61,10 @@ public class Tile
         g.drawImage(img, x, y, TILE_WIDTH, TILE_HEIGHT, null);
     }
 
+
     /*! \fn public boolean IsSolid()
         \brief Returneaza proprietatea de dala solida (supusa coliziunilor) sau nu.
      */
-
-    //false - the tile is not a solid block and is walkable
     public boolean IsSolid()
     {
         return false;

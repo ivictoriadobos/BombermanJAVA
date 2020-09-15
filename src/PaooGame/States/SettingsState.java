@@ -4,7 +4,7 @@ import PaooGame.RefLinks;
 
 import java.awt.*;
 
-/*! \class public class SettingsState extends State
+/*! \class SettingsState
     \brief Implementeaza notiunea de settings pentru joc.
 
     Aici setarile vor trebui salvate/incarcate intr-un/dintr-un fisier/baza de date sqlite.

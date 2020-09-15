@@ -1,7 +1,11 @@
 package PaooGame.Input;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.security.Key;
 
 /*! \class public class KeyManager implements KeyListener
     \brief Gestioneaza intrarea (input-ul) de tastatura.
@@ -13,10 +17,12 @@ import java.awt.event.KeyListener;
 public class KeyManager implements KeyListener
 {
     private boolean[] keys; /*!< Vector de flaguri pentru toate tastele. Tastele vor fi regasite dupa cod [0 - 255]*/
-    public boolean up;      /*!< Flag pentru tasta "sus" apasata.*/
+    public boolean up;/*!< Flag pentru tasta "sus" apasata.*/
     public boolean down;    /*!< Flag pentru tasta "jos" apasata.*/
     public boolean left;    /*!< Flag pentru tasta "stanga" apasata.*/
     public boolean right;   /*!< Flag pentru tasta "dreapta" apasata.*/
+    private long PauseBetweenSpace ;
+    public boolean space;
     public int lastKeyTyped;
     public boolean noKeyPressed;
 
@@ -32,12 +38,15 @@ public class KeyManager implements KeyListener
 
     public void Update()
     {
-        up    = keys[KeyEvent.VK_W];
+       up    = keys[KeyEvent.VK_W];
         down  = keys[KeyEvent.VK_S];
         left  = keys[KeyEvent.VK_A];
         right = keys[KeyEvent.VK_D];
         if(!up && !down && !left && !right)
             noKeyPressed = true;
+        if(keys[KeyEvent.VK_SPACE] && System.currentTimeMillis() - PauseBetweenSpace <=10)
+            space = keys[KeyEvent.VK_SPACE];
+        else space=false;
     }
 
     /*! \fn public void keyPressed(KeyEvent e)
@@ -49,7 +58,10 @@ public class KeyManager implements KeyListener
     public void keyPressed(KeyEvent e)
     {
             ///se retine in vectorul de flaguri ca o tasta a fost apasata.
-        keys[e.getKeyCode()] = true;
+       if(e.getKeyCode() == 32) {
+            PauseBetweenSpace = System.currentTimeMillis();
+        }
+       keys[e.getKeyCode()] = true;
         noKeyPressed = false;
     }
 
@@ -64,8 +76,10 @@ public class KeyManager implements KeyListener
     {
             ///se retine in vectorul de flaguri ca o tasta a fost eliberata.
        // System.out.println(e.getKeyCode());
-        keys[e.getKeyCode()] = false;
+
+            keys[e.getKeyCode()] = false;
         lastKeyTyped = e.getKeyCode();
+
 
     }
 

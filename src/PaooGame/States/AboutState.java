@@ -1,14 +1,21 @@
 package PaooGame.States;
 
+import PaooGame.Graphics.Assets;
 import PaooGame.RefLinks;
+import PaooGame.UserInterface.ClickListener;
+import PaooGame.UserInterface.UIImageButton;
+import PaooGame.UserInterface.UIManager;
 
 import java.awt.*;
 
-/*! \class public class AboutState extends State
+/*! \class AboutState
     \brief Implementeaza notiunea de credentiale (about)
  */
 public class AboutState extends State
 {
+    /// Referinta catre un manager pentru UI specific starii MenuState
+    private UIManager uiManager;
+
     /*! \fn public AboutState(RefLinks refLink)
         \brief Constructorul de initializare al clasei.
 
@@ -18,6 +25,19 @@ public class AboutState extends State
     {
             ///Apel al constructorului clasei de baza.
         super(refLink);
+        ///Se construieste un nou manager de obiecte UI
+        uiManager = new UIManager(refLink);
+        ///Adauga diverse obiecte specifice starii Highscores
+        uiManager.addObj(new UIImageButton(50, 50, 200, 200, Assets.backButton, new ClickListener() {
+            @Override
+            public void Clicked() {
+
+                refLink.GetMouseManager().setUiManager(null);
+                State.SetState(refLink.GetGame().getMenuState());
+            }
+        }));
+
+
     }
     /*! \fn public void Update()
         \brief Actualizeaza starea curenta a meniu about.
@@ -25,6 +45,9 @@ public class AboutState extends State
     @Override
     public void Update()
     {
+        if (refLink.GetMouseManager().getUiManager() == null)
+            refLink.GetMouseManager().setUiManager(uiManager);
+        uiManager.Update();
 
     }
 
@@ -36,6 +59,13 @@ public class AboutState extends State
     @Override
     public void Draw(Graphics g)
     {
+        ///Se deseneaza imaginea de background
+        g.drawImage(Assets.walpaper, 0,0,960, 832, null);
+        ///Se deseneaza imaginea specifica starii AboutState
+        g.drawImage(Assets.about, 230, 100, 520, 590, null);
+        ///Se deseneaza obiectele UI
+        uiManager.Draw(g);
+        
 
     }
 }
